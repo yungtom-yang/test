@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Visa／Mastercard｜首次預約互動總流程</title>
+<style>
+:root { color-scheme: light; font-family: "Microsoft JhengHei", "PingFang TC", sans-serif; color: #17263a; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #f2f7fb; }
+main { max-width: 2270px; margin: 0 auto; padding: 18px clamp(10px, 2vw, 30px) 26px; }
+.controls { padding: 14px 16px; background: white; border: 1px solid #ccdce7; border-radius: 9px; margin-bottom: 12px; }
+nav { display: flex; flex-wrap: wrap; gap: 8px; }
+button { padding: 8px 12px; border: 1px solid #a6bece; border-radius: 6px; background: #fff; color: #17263a; font: inherit; font-weight: 700; cursor: pointer; }
+button[aria-pressed="true"] { color: #fff; background: #173950; border-color: #173950; }
+button:focus-visible, .scrollable:focus-visible { outline: 3px solid #0875a7; outline-offset: 3px; }
+.summary { margin: 10px 0 0; font-size: 15px; line-height: 1.5; color: #466075; }
+.scrollable { overflow-x: auto; background: #fff; border: 1px solid #ccdce7; border-radius: 9px; }
+svg { display: block; width: 100%; min-width: 1280px; height: auto; }
+.is-muted { filter: grayscale(1); opacity: .68; }
+.is-muted text, text.is-muted { fill: #343a42; }
+.bridge.is-muted { opacity: 0; }
+.is-active > rect[data-frame] { stroke: #25649b; stroke-width: 3; }
+.is-active > polyline { stroke-width: 3; }
+text.is-active { fill: #173950; font-weight: 700; }
+[hidden] { display: none; }
+</style>
+</head>
+<body>
+<main>
+<section class="controls" aria-label="流程階段">
+<nav aria-label="全圖與 A–F 階段"><button type="button" data-select="all" aria-pressed="true" aria-controls="diagram">全圖</button><button type="button" data-select="A" aria-pressed="false" aria-controls="diagram">A 卡片準備</button><button type="button" data-select="B" aria-pressed="false" aria-controls="diagram">B 建立委任</button><button type="button" data-select="C" aria-pressed="false" aria-controls="diagram">C 查車報價</button><button type="button" data-select="D" aria-pressed="false" aria-controls="diagram">D 核對條件</button><button type="button" data-select="E" aria-pressed="false" aria-controls="diagram">E 核准與準備付款</button><button type="button" data-select="F" aria-pressed="false" aria-controls="diagram">F 授權與接單</button></nav>
+<p class="summary" aria-live="polite"><span data-summary="all">一筆預約從選卡、提出需求到收到訂單號。</span>
+<span data-summary="A" hidden>客戶選本行卡，前段完成代碼化設定，適用時由本行驗身。</span>
+<span data-summary="B" hidden>客戶交代接送條件，外部 Agent 確認並留存可查車的範圍。</span>
+<span data-summary="C" hidden>外部 Agent 經 Visa／Mastercard 商務方案或其合作方查車，車商回傳報價、效期與條款。</span>
+<span data-summary="D" hidden>外部 Agent 比對客戶條件與商務介接方回傳的最新車商報價及承載。</span>
+<span data-summary="E" hidden>客戶核准同一版結帳，外部 Agent 經商務介接送建單，支付介接另交付憑證；適用時再做 3DS。</span>
+<span data-summary="F" hidden>本行經卡組織和收單行回覆車商。車商經商務介接回傳授權結果、接單狀態與訂單號。外部 Agent 核對兩邊結果，均成功後在原對話回覆「已預約」及訂單號。</span></p>
+</section>
+<div class="scrollable" id="diagram" role="region" aria-label="可左右捲動的合併總流程圖" tabindex="0">
+<svg xmlns="http://www.w3.org/2000/svg" width="2260" height="1130" viewBox="0 0 2260 1130" role="img" aria-labelledby="svg-title svg-description">
+<title id="svg-title">Visa／Mastercard 機場接送首次預約合併總流程</title><desc id="svg-description">A 卡片準備、B 建立委任、C 查車報價、D 核對條件、E 核准與準備付款、F 授權與接單；兩家卡組織的功能標在各節點下方。</desc>
+<defs>
+<marker id="arrow-0" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M 0 0 L 10 5 L 0 10 Z" fill="#394451"/></marker>
+<marker id="arrow-1" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M 0 0 L 10 5 L 0 10 Z" fill="#5076ab"/></marker>
+<marker id="arrow-2" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M 0 0 L 10 5 L 0 10 Z" fill="#826741"/></marker>
+</defs>
+<rect x="0" y="0" width="2260" height="1130" rx="0" fill="white" stroke="none" stroke-width="1"/>
+<text data-fit="45 2210" x="51" y="53" font-size="43" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">AI 智慧代理支付－Visa／Mastercard 合併總流程</text>
+<text data-fit="48 2210" x="54" y="108" font-size="23" font-weight="400" fill="#466075" text-anchor="start" dominant-baseline="central">機場接送首次預約｜前段委外｜客戶逐筆核准｜本行承接發卡作業</text>
+<g id="issuer-region" data-phase="A E F">
+<rect x="1842" y="142" width="372" height="594" rx="0" fill="#f5f9fd" stroke="#d2dfeb" stroke-width="1.5"/>
+<text x="1867" y="160" font-size="20" font-weight="700" fill="#17263a" text-anchor="start" dominant-baseline="central">本行｜發卡端</text>
+</g>
+<g id="customer-entry" data-phase="A B E F">
+<polyline points="110,647 140,647" fill="none" stroke="#394451" stroke-width="2.4" marker-end="url(#arrow-0)"/>
+</g>
+<g id="entry-agent" data-phase="A B E">
+<polyline points="385,647 428,647" fill="none" stroke="#394451" stroke-width="2.4" marker-end="url(#arrow-0)"/>
+</g>
+<g id="agent-commerce" data-phase="C D E"><polyline points="505,560 505,436" fill="none" stroke="#394451" stroke-width="2.4" marker-end="url(#arrow-0)" marker-start="url(#arrow-0)"/></g>
+<g id="commerce-merchant" data-phase="C D E F"><polyline points="635,246 705,246" fill="none" stroke="#394451" stroke-width="2.4" marker-end="url(#arrow-0)" marker-start="url(#arrow-0)"/></g>
+<g id="safe-merchant" data-phase="E">
+<polyline points="1075,596 1075,382 1011,382 1011,344" fill="none" stroke="#394451" stroke-width="2.4" marker-end="url(#arrow-0)"/>
+</g>
+<g id="merchant-acquirer" data-phase="F">
+<polyline points="1065,247 1140,247" fill="none" stroke="#5076ab" stroke-width="2.4" marker-start="url(#arrow-1)" marker-end="url(#arrow-1)"/>
+</g>
+<g id="acquirer-network" data-phase="F">
+<polyline points="1310,247 1388,247" fill="none" stroke="#5076ab" stroke-width="2.4" marker-end="url(#arrow-1)" marker-start="url(#arrow-1)"/>
+</g>
+<g id="network-issuer" data-phase="F">
+<polyline points="1798,247 1875,247" fill="none" stroke="#5076ab" stroke-width="2.4" marker-end="url(#arrow-1)" marker-start="url(#arrow-1)"/>
+</g>
+<g id="acquirer-3ds" data-phase="E">
+<polyline points="1251,294 1251,410 1292,410" fill="none" stroke="#826741" stroke-width="2.4" marker-end="url(#arrow-2)" marker-start="url(#arrow-2)" stroke-dasharray="7 5"/>
+</g>
+<g id="3ds-issuer" data-phase="E">
+<polyline points="1798,414 1908,414 1908,594" fill="none" stroke="#826741" stroke-width="2.4" marker-end="url(#arrow-2)" marker-start="url(#arrow-2)" stroke-dasharray="7 5"/>
+</g>
+<g id="setup-issuer" data-phase="A">
+<polyline points="1798,555 1837,555 1837,665 1875,665" fill="none" stroke="#826741" stroke-width="2.4" marker-end="url(#arrow-2)" marker-start="url(#arrow-2)" stroke-dasharray="7 5"/>
+</g>
+<g id="commerce-result" data-phase="F"><polyline points="613,436 613,473 921,473 921,803 855,803 855,772" fill="none" stroke="#394451" stroke-width="2.4" marker-end="url(#arrow-0)"/></g>
+<polyline class="bridge" data-phase="A E" points="880,647 936,647" fill="none" stroke="white" stroke-width="9"/>
+<g id="agent-safe" data-phase="A E">
+<polyline points="880,647 936,647" fill="none" stroke="#394451" stroke-width="2.4" marker-end="url(#arrow-0)"/>
+</g>
+<polyline class="bridge" data-phase="A E" points="1168,647 1238,647" fill="none" stroke="white" stroke-width="9"/>
+<g id="safe-schemes" data-phase="A E">
+<polyline points="1168,647 1238,647" fill="none" stroke="#394451" stroke-width="2.4" marker-end="url(#arrow-0)" marker-start="url(#arrow-0)"/>
+</g>
+<g id="approval" data-phase="E">
+<polyline points="730,772 730,812 280,812 280,724" fill="none" stroke="#394451" stroke-width="2.4" marker-end="url(#arrow-0)" marker-start="url(#arrow-0)"/>
+</g>
+<g id="result-entry" data-phase="F">
+<polyline points="428,746 404,746 404,870 184,870 184,724" fill="none" stroke="#394451" stroke-width="2.4" marker-end="url(#arrow-0)"/>
+</g>
+<g id="commerce" data-phase="C D E F">
+<rect data-frame="" x="285" y="164" width="350" height="272" rx="10" fill="white" stroke="#394451" stroke-width="2"/>
+<text data-fit="297 623" x="300" y="192" font-size="22" font-weight="700" fill="#17263a" text-anchor="start" dominant-baseline="central">Visa／Mastercard 商務介接</text>
+<text data-fit="297 623" x="300" y="223" font-size="17" font-weight="400" fill="#466075" text-anchor="start" dominant-baseline="central">含指定合作方，車商及功能覆蓋待確認</text>
+<line x1="299" x2="621" y1="246" y2="246" stroke="#d2dfeb"/>
+<rect x="300" y="258" width="90" height="24" rx="5" fill="#e9f0fc" stroke="none" stroke-width="1"/>
+<text data-fit="304 386" x="345" y="270" font-size="14" font-weight="700" fill="#284f8d" text-anchor="middle" dominant-baseline="central">Visa</text>
+<text data-fit="400 619" x="403" y="269" font-size="17" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">ICC｜候選介接方案</text>
+<rect x="300" y="292" width="90" height="24" rx="5" fill="#f9eee5" stroke="none" stroke-width="1"/>
+<text data-fit="304 386" x="345" y="304" font-size="14" font-weight="700" fill="#8a4e28" text-anchor="middle" dominant-baseline="central">Mastercard</text>
+<text data-fit="400 619" x="403" y="303" font-size="17" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">Agent Connect｜候選方案</text>
+<g id="agent-verification" data-phase="C E">
+<line x1="299" x2="621" y1="325" y2="325" stroke="#d2dfeb"/>
+<text x="300" y="343" font-size="17" font-weight="700" fill="#17263a" dominant-baseline="central" data-fit="297 623">代理請求驗證（依方案適用）</text>
+<text x="300" y="367" font-size="15" fill="#284f8d" dominant-baseline="central" data-fit="297 623">Visa TAP｜C 查詢、E1 結帳時驗代理</text>
+<text x="300" y="390" font-size="15" fill="#8a4e28" dominant-baseline="central" data-fit="297 623">Mastercard Web Bot Auth｜辨識可信代理</text>
+<text x="300" y="414" font-size="15" fill="#466075" dominant-baseline="central" data-fit="297 623">簽署方與驗證位置待方案確認</text>
+</g>
+</g>
+<g id="merchant" data-phase="C D E F">
+<rect data-frame="" x="705" y="164" width="360" height="180" rx="10" fill="white" stroke="#394451" stroke-width="2"/>
+<text data-fit="717 1053" x="720" y="187" font-size="22" font-weight="700" fill="#17263a" text-anchor="start" dominant-baseline="central">C／E1／F1 車商 API</text>
+</g>
+<text id="merchant-quote" data-phase="C D" data-fit="717 1050" x="720" y="220" font-size="17" font-weight="400" fill="#466075" text-anchor="start" dominant-baseline="central">C／D 空車、含費報價及效期</text>
+<text id="merchant-checkout" data-phase="E" data-fit="717 880" x="720" y="244" font-size="17" font-weight="400" fill="#466075" text-anchor="start" dominant-baseline="central">E1 接收建單</text>
+<text id="merchant-status" data-phase="F" data-fit="881 1050" x="884" y="244" font-size="17" font-weight="400" fill="#466075" text-anchor="start" dominant-baseline="central">F1 回接單狀態</text>
+<line x1="719" x2="1051" y1="259" y2="259" stroke="#d2dfeb"/>
+<text data-phase="E F" x="720" y="288" font-size="17" fill="#466075" dominant-baseline="central" data-fit="717 1050">經商務介接回傳付款及接單結果</text>
+<g id="acquirer" data-phase="E F">
+<rect data-frame="" x="1140" y="190" width="170" height="104" rx="10" fill="#dae8fc" stroke="#5076ab" stroke-width="2"/>
+<text data-fit="1152 1298" x="1155" y="213" font-size="19" font-weight="700" fill="#17263a" text-anchor="start" dominant-baseline="central">收單行(EPOS)</text>
+</g>
+<text id="acquirer-E" data-phase="E" data-fit="1152 1298" x="1155" y="241" font-size="17" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">E2 結帳驗身</text>
+<text id="acquirer-F" data-phase="F" data-fit="1152 1298" x="1155" y="269" font-size="17" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">F1 送卡組織授權</text>
+<g id="network" data-phase="F">
+<rect data-frame="" x="1388" y="164" width="410" height="170" rx="10" fill="#dae8fc" stroke="#5076ab" stroke-width="2"/>
+<text data-fit="1400 1786" x="1403" y="192" font-size="22" font-weight="700" fill="#17263a" text-anchor="start" dominant-baseline="central">F1 卡組織授權</text>
+<text data-fit="1400 1786" x="1403" y="223" font-size="17" font-weight="400" fill="#466075" text-anchor="start" dominant-baseline="central">依適用規則檢核交易資料與憑證</text>
+<line x1="1402" x2="1784" y1="246" y2="246" stroke="#d2dfeb"/>
+<rect x="1403" y="258" width="90" height="24" rx="5" fill="#e9f0fc" stroke="none" stroke-width="1"/>
+<text data-fit="1407 1489" x="1448" y="270" font-size="14" font-weight="700" fill="#284f8d" text-anchor="middle" dominant-baseline="central">Visa</text>
+<text data-fit="1503 1782" x="1506" y="269" font-size="17" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">VisaNet｜送本行、回收單</text>
+<rect x="1403" y="292" width="90" height="24" rx="5" fill="#f9eee5" stroke="none" stroke-width="1"/>
+<text data-fit="1407 1489" x="1448" y="304" font-size="14" font-weight="700" fill="#8a4e28" text-anchor="middle" dominant-baseline="central">Mastercard</text>
+<text data-fit="1503 1782" x="1506" y="303" font-size="17" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">卡組織｜送本行、回收單</text>
+</g>
+<g id="issuer-auth" data-phase="F">
+<rect data-frame="" x="1875" y="193" width="302" height="108" rx="10" fill="#dae8fc" stroke="#5076ab" stroke-width="2"/>
+<text data-fit="1885 2167" x="2026.0" y="226.0" font-size="22" font-weight="700" fill="#17263a" text-anchor="middle" dominant-baseline="central">F1 本行發卡授權</text>
+<text data-fit="1885 2167" x="2026.0" y="258.0" font-size="19" font-weight="400" fill="#466075" text-anchor="middle" dominant-baseline="central">依卡片、額度及風控</text>
+<text data-fit="1885 2167" x="2026.0" y="282.0" font-size="19" font-weight="400" fill="#466075" text-anchor="middle" dominant-baseline="central">回覆核准或拒絕</text>
+</g>
+<g id="merchant-auth" data-phase="E">
+<rect data-frame="" x="1292" y="355" width="506" height="113" rx="10" fill="#fffaf2" stroke="#b29670" stroke-width="1.6"/>
+<text data-fit="1303 1786" x="1307" y="374" font-size="20" font-weight="700" fill="#17263a" text-anchor="start" dominant-baseline="central">E2 商戶結帳驗身（適用時）</text>
+<rect x="1307" y="398" width="90" height="24" rx="5" fill="#e9f0fc" stroke="none" stroke-width="1"/>
+<text data-fit="1311 1393" x="1352" y="410" font-size="14" font-weight="700" fill="#284f8d" text-anchor="middle" dominant-baseline="central">Visa</text>
+<text data-fit="1407 1782" x="1410" y="409" font-size="17" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">Visa Secure｜送結帳驗身資料至本行</text>
+<rect x="1307" y="431" width="90" height="24" rx="5" fill="#f9eee5" stroke="none" stroke-width="1"/>
+<text data-fit="1311 1393" x="1352" y="443" font-size="14" font-weight="700" fill="#8a4e28" text-anchor="middle" dominant-baseline="central">Mastercard</text>
+<text data-fit="1407 1782" x="1410" y="442" font-size="17" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">Identity Check｜送結帳驗身資料至本行</text>
+</g>
+<g id="customer" data-phase="A B E F">
+<circle cx="78" cy="630" r="9" fill="white" stroke="#17263a" stroke-width="2"/><path d="M78 639v30m-17-19h34m-17 19-15 16m15-16 15 16" fill="none" stroke="#17263a" stroke-width="2"/>
+<text x="78" y="705" font-size="18" font-weight="400" fill="#17263a" text-anchor="middle" dominant-baseline="central">客戶</text>
+</g>
+<g id="entry" data-phase="A B E F">
+<rect data-frame="" x="140" y="570" width="245" height="154" rx="10" fill="white" stroke="#394451" stroke-width="2"/>
+<text data-fit="152 373" x="155" y="593" font-size="23" font-weight="700" fill="#17263a" text-anchor="start" dominant-baseline="central">外部客戶入口</text>
+</g>
+<text id="entry-A" data-phase="A" data-fit="152 370" x="156" y="622" font-size="19" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">A 選本行卡</text>
+<text id="entry-B" data-phase="B" data-fit="152 370" x="156" y="648" font-size="19" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">B 交代需求並同意查車</text>
+<text id="entry-E" data-phase="E" data-fit="152 370" x="156" y="674" font-size="19" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">E1 確認預約及付款</text>
+<text id="entry-F" data-phase="F" data-fit="152 370" x="156" y="700" font-size="19" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">F1 收到預約結果</text>
+<g id="agent" data-phase="A B C D E F">
+<rect data-frame="" x="428" y="560" width="452" height="212" rx="10" fill="white" stroke="#394451" stroke-width="2"/>
+<text data-fit="440 868" x="443" y="583" font-size="23" font-weight="700" fill="#17263a" text-anchor="start" dominant-baseline="central">外部 Agent 營運方</text>
+</g>
+<text id="agent-A" data-phase="A" data-fit="440 867" x="444" y="610" font-size="19" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">A 引導綁卡</text>
+<text id="agent-B" data-phase="B" data-fit="440 867" x="444" y="633" font-size="19" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">B 回顯接送需求並留存查車委任</text>
+<text id="agent-C" data-phase="C" data-fit="440 867" x="444" y="656" font-size="19" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">C 經商務介接查空車與含費報價</text>
+<text id="agent-D" data-phase="D" data-fit="440 867" x="444" y="679" font-size="19" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">D 比對客戶條件與車商報價</text>
+<text id="agent-E" data-phase="E" data-fit="440 867" x="444" y="702" font-size="19" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">E1 逐筆核准後經商務介接送建單</text>
+<g id="agent-F" data-phase="F">
+<text x="444" y="732" font-size="19" font-weight="700" fill="#173950" dominant-baseline="central" data-fit="440 867">F1 核對授權及接單後回覆「已預約」</text>
+<text x="444" y="754" font-size="17" fill="#466075" dominant-baseline="central" data-fit="440 867">在客戶原對話提供車商訂單號</text>
+</g>
+<g id="safe" data-phase="A E">
+<rect data-frame="" x="936" y="596" width="232" height="104" rx="10" fill="white" stroke="#394451" stroke-width="2"/>
+<text data-fit="948 1156" x="951" y="619" font-size="23" font-weight="700" fill="#17263a" text-anchor="start" dominant-baseline="central">安全支付介接</text>
+</g>
+<text id="safe-A" data-phase="A" data-fit="948 1155" x="951" y="648" font-size="18" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">A 設定付款方式</text>
+<text id="safe-E" data-phase="E" data-fit="948 1155" x="951" y="676" font-size="18" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">E1 取用與交付憑證</text>
+<g id="payment-schemes" data-phase="A E">
+<rect data-frame="" x="1238" y="496" width="560" height="310" rx="10" fill="white" stroke="#394451" stroke-width="2"/>
+<line x1="1254" x2="1782" y1="606" y2="606" stroke="#d2dfeb"/>
+</g>
+<g id="scheme-A" data-phase="A">
+<text data-fit="1250 1786" x="1254" y="520" font-size="23" font-weight="700" fill="#17263a" text-anchor="start" dominant-baseline="central">A｜準備可用的付款方式</text>
+<rect x="1254" y="542" width="90" height="24" rx="5" fill="#e9f0fc" stroke="none" stroke-width="1"/>
+<text data-fit="1258 1340" x="1299" y="554" font-size="14" font-weight="700" fill="#284f8d" text-anchor="middle" dominant-baseline="central">Visa</text>
+<text data-fit="1354 1781" x="1357" y="553" font-size="17" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">VTS｜把合資格卡片轉成付款代碼</text>
+<rect x="1254" y="572" width="90" height="24" rx="5" fill="#f9eee5" stroke="none" stroke-width="1"/>
+<text data-fit="1258 1340" x="1299" y="584" font-size="14" font-weight="700" fill="#8a4e28" text-anchor="middle" dominant-baseline="central">Mastercard</text>
+<text data-fit="1354 1781" x="1357" y="583" font-size="17" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">Agentic Token｜以受控代碼代替卡號</text>
+</g>
+<g id="scheme-E" data-phase="E">
+<text data-fit="1250 1786" x="1254" y="631" font-size="23" font-weight="700" fill="#17263a" text-anchor="start" dominant-baseline="central">E1｜核准後驗證指示、準備付款憑證</text>
+<rect x="1254" y="655" width="90" height="24" rx="5" fill="#e9f0fc" stroke="none" stroke-width="1"/>
+<text data-fit="1258 1340" x="1299" y="667" font-size="14" font-weight="700" fill="#284f8d" text-anchor="middle" dominant-baseline="central">Visa</text>
+<text data-fit="1354 1781" x="1357" y="666" font-size="17" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">VPP／核可方式｜驗證客戶核准的購買指示</text>
+<text data-fit="1354 1781" x="1357" y="691" font-size="17" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">VIC｜核對指示並回付款憑證</text>
+<rect x="1254" y="727" width="90" height="24" rx="5" fill="#f9eee5" stroke="none" stroke-width="1"/>
+<text data-fit="1258 1340" x="1299" y="739" font-size="14" font-weight="700" fill="#8a4e28" text-anchor="middle" dominant-baseline="central">Mastercard</text>
+<text data-fit="1354 1781" x="1357" y="738" font-size="17" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">Agent Pay｜支援代碼及適用動態付款資料</text>
+<text data-fit="1354 1781" x="1357" y="763" font-size="17" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">VI Immediate（若採）｜驗證同意的結帳版本</text>
+</g>
+<g id="issuer-idv" data-phase="A E">
+<rect data-frame="" x="1875" y="594" width="302" height="108" rx="10" fill="#dae8fc" stroke="#5076ab" stroke-width="2"/>
+<text data-fit="1887 2165" x="1890" y="617" font-size="23" font-weight="700" fill="#17263a" text-anchor="start" dominant-baseline="central">本行驗身</text>
+</g>
+<text id="issuer-idv-A" data-phase="A" data-fit="1887 2165" x="1890" y="648" font-size="18" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">A 卡片設定驗身（適用時）</text>
+<text id="issuer-idv-E" data-phase="E" data-fit="1887 2165" x="1890" y="676" font-size="18" font-weight="400" fill="#17263a" text-anchor="start" dominant-baseline="central">E2 結帳驗身（適用時）</text>
+<g data-phase="C D E"><rect x="383.0" y="455" width="108" height="20" fill="white"/><text x="437" y="465" font-size="15" fill="#466075" text-anchor="middle" dominant-baseline="central" data-fit="383.0 491.0">查詢／送建單</text></g>
+<g data-phase="C D E F"><rect x="638.0" y="216" width="64" height="20" fill="white"/><text x="670" y="226" font-size="15" fill="#466075" text-anchor="middle" dominant-baseline="central" data-fit="638.0 702.0">商務介接</text></g>
+<g data-phase="E"><rect x="954.0" y="395" width="104" height="20" fill="white"/><text x="1006" y="405" font-size="15" fill="#466075" text-anchor="middle" dominant-baseline="central" data-fit="954.0 1058.0">交付付款憑證</text></g>
+<g data-phase="F">
+<rect x="1066" y="217" width="72" height="20" rx="0" fill="white" stroke="none" stroke-width="1"/>
+<text data-fit="1066 1138" x="1102" y="227" font-size="15" font-weight="400" fill="#5076ab" text-anchor="middle" dominant-baseline="central">授權往返</text>
+</g>
+<g data-phase="F">
+<rect x="1799.0" y="218" width="74" height="20" rx="0" fill="white" stroke="none" stroke-width="1"/>
+<text data-fit="1799.0 1873.0" x="1836" y="228" font-size="15" font-weight="400" fill="#5076ab" text-anchor="middle" dominant-baseline="central">送件／回覆</text>
+</g>
+<g data-phase="A">
+<rect x="1803.5" y="528" width="67" height="20" rx="0" fill="white" stroke="none" stroke-width="1"/>
+<text data-fit="1803.5 1870.5" x="1837" y="538" font-size="15" font-weight="400" fill="#826741" text-anchor="middle" dominant-baseline="central">A 驗身</text>
+</g>
+<g data-phase="E">
+<rect x="395.0" y="792" width="218" height="20" rx="0" fill="white" stroke="none" stroke-width="1"/>
+<text data-fit="395.0 613.0" x="504" y="802" font-size="15" font-weight="400" fill="#466075" text-anchor="middle" dominant-baseline="central">呈現報價／回傳同版本核准</text>
+</g>
+<g data-phase="F"><rect x="937.5" y="793" width="205" height="20" fill="white"/><text x="1040" y="803" font-size="15" fill="#466075" text-anchor="middle" dominant-baseline="central" data-fit="937.5 1142.5">回付款、接單及訂單號</text></g>
+<g data-phase="F">
+<rect x="237" y="840" width="114" height="20" rx="0" fill="white" stroke="none" stroke-width="1"/>
+<text data-fit="237 351" x="294" y="850" font-size="15" font-weight="400" fill="#466075" text-anchor="middle" dominant-baseline="central">回覆預約結果</text>
+</g>
+<line x1="54" x2="2213" y1="1013" y2="1013" stroke="#d2dfeb"/>
+<text data-phase="F" data-fit="50 2210" x="54" y="1045" font-size="20" font-weight="400" fill="#466075" text-anchor="start" dominant-baseline="central"></text>
+<text data-fit="50 2210" x="54" y="1083" font-size="19" font-weight="400" fill="#466075" text-anchor="start" dominant-baseline="central"></text>
+</svg>
+</div>
+</main>
+<script>
+const buttons = Array.from(document.querySelectorAll('[data-select]'));
+const elements = Array.from(document.querySelectorAll('svg [data-phase]'), node => [node, node.dataset.phase.split(' ')]);
+const summaries = Array.from(document.querySelectorAll('[data-summary]'));
+function selectPhase(phase) {
+  for (const button of buttons) button.setAttribute('aria-pressed', String(button.dataset.select === phase));
+  for (const [node, stages] of elements) {
+    const active = stages.includes(phase);
+    node.classList.toggle('is-active', phase !== 'all' && active);
+    node.classList.toggle('is-muted', phase !== 'all' && !active);
+  }
+  for (const summary of summaries) summary.hidden = summary.dataset.summary !== phase;
+}
+for (const button of buttons) button.addEventListener('click', () => selectPhase(button.dataset.select));
+</script>
+</body>
+</html>
